@@ -7,7 +7,6 @@ const UpdatePerson = props => {
     const {id, firstName, lastName} = props
     const [form] = Form.useForm()
     const [, forceUpdate] = useState()
-
     const [updatePerson] = useMutation(UPDATE_PERSON)
 
     const onFinish = values => {
@@ -30,7 +29,7 @@ const UpdatePerson = props => {
     }, [])
     return (
         <Form
-            name='update-contact-form'
+            name='update-person-form'
             layout='inline'
             onFinish={onFinish}
             initialValues={{
@@ -39,19 +38,20 @@ const UpdatePerson = props => {
             }}
             form={form}
         >
-            <Form.Item name='firstName' rules={[{ required: true, message: 'Please enter a first name.'}]}>
+            <Form.Item name='update-firstName' rules={[{ required: true, message: 'Please enter a first name.'}]}>
                 <Input placeholder="i.e. John"></Input>
             </Form.Item>
-            <Form.Item name='lastName' rules={[{ required: true, message: 'Please enter a last name.'}]}>
+            <Form.Item name='update-lastName' rules={[{ required: true, message: 'Please enter a last name.'}]}>
                 <Input placeholder="i.e. Smith"></Input>
             </Form.Item>
             <Form.Item shouldUpdate={true}>
                 {() => (
+                    // console.log('form.isFieldTouched', form.isFieldTouched('firstName')),
                     <Button
                         type='primary'
                         htmlType='submit'
                         disabled={
-                            (!form.isFieldsTouched('firstName') && !form.isFieldsTouched('lastName')) || form.getFieldsError().filter(({ errors }) => errors.length).length
+                            (!form.isFieldTouched('firstName') && !form.isFieldTouched('lastName')) || form.getFieldsError().filter(({ errors }) => errors.length).length
                         }
                     >
                         Update Contact

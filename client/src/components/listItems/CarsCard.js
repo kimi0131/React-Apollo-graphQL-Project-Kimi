@@ -6,8 +6,18 @@ import { EditOutlined } from "@ant-design/icons"
 
 const CarsCard = props => {
     const [editMode, setEditMode] = useState(false)
-    const styles = getStyles()
+    // console.log("props from CarsCard", props) -> OK (each car's info.)
     const { id, year, make, model, price, personId } = props
+
+    const formatPriceToUSD = (price) => {
+        // get USD format
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        });
+
+        return formatter.format(price);
+    };
 
     const handleButtonClick = () => {
         setEditMode(!editMode)
@@ -26,25 +36,21 @@ const CarsCard = props => {
                     onButtonClick={handleButtonClick}
                 />
             ) : (
-                <Card style={styles.card}
+                <Card
+                    style={{ backgroundColor: 'Highlight', margin: '16px' }}
+                    key={props.index}
+                    type="inner"
                     actions={[
                         <EditOutlined key='edit' onClick={handleButtonClick} />,
                         <RemoveCar id={id} />
                     ]}
                 >
-                    {year} {make} {model} {price} {personId}
+                    {`${year} ${make} ${model} -> ${formatPriceToUSD(price)}`}
                 </Card>
             )
             }
         </div>
     )
-
 }
-
-const getStyles = () => ({
-    card: {
-        width: '500px'
-    }
-})
 
 export default CarsCard

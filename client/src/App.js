@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import Title from './components/layout/Title';
-import AddPerson from './components/forms/AddPerson';
-import People from './components/lists/People';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from './route/Home';
+import ShowDetail from './route/ShowDetail';
+import './App.css';
 
+// set the appolo client
 const client = new ApolloClient({
   uri: `http://localhost:4000/graphql`,
   cache: new InMemoryCache()
 })
 
+// set the route
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/person/:personId",
+    element: <ShowDetail />,
+  },
+]);
+
+// set the app
 const App = () => {
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <Title />
-        <AddPerson />
-        <People />
-      </div>
+      <RouterProvider router={router} />
     </ApolloProvider>
   );
 }

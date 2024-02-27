@@ -45,7 +45,7 @@ const typeDefs = `#graphql
     id: ID!
     firstName: String!
     lastName: String!
-    cars: [AddCarInput!]
+    cars: [AddCarInput]
   }
 
   input AddCarInput {
@@ -67,6 +67,7 @@ const typeDefs = `#graphql
     make: String!
     model: String!
     price: Float!
+    personId: ID!
   }
 `
 
@@ -96,7 +97,8 @@ const resolvers = {
       const newPerson = {
         id: args.person.id,
         firstName: args.person.firstName,
-        lastName: args.person.lastName
+        lastName: args.person.lastName,
+        cars: []
       }
       people.push(newPerson)
 
@@ -126,7 +128,6 @@ const resolvers = {
         const index = cars.findIndex(c => c.id === personCar.id)
         cars.splice(index, 1)
       })
-      
 
       remove(people, p => {
         return p.id === removedPerson.id
@@ -160,12 +161,10 @@ const resolvers = {
       car.make = args.update.make
       car.model = args.update.model
       car.price = args.update.price
-      // car.personId = args.update.personId
+      car.personId = args.update.personId
 
       return car
     },
-
-
     
     removeCar: (root, args) => {
       const removedCar = find(cars, { id: args.id })

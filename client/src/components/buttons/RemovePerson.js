@@ -1,16 +1,19 @@
 import { DeleteOutlined } from '@ant-design/icons'
 import { useMutation } from '@apollo/client'
-import { GET_PEOPLE, REMOVE_PERSON } from '../../graphql/queries'
+import { GET_PEOPLE_WITH_CARS, REMOVE_PERSON } from '../../graphql/queries'
 import filter from 'lodash.filter'
 
 const RemovePerson = ({ id }) => {
 
-    const [removePerson] = useMutation(REMOVE_PERSON, {
+    // console.log("id from  RemovePerson component", id) -> OK
+
+    const [ removePerson ] = useMutation(REMOVE_PERSON, {
         update(cache, { data: { removePerson } }) {
-            const { people } = cache.readQuery({ query: GET_PEOPLE })
+            const { people } = cache.readQuery({ query: GET_PEOPLE_WITH_CARS })
+            // console.log("people from RemovePerson component", people)
 
             cache.writeQuery({
-                query: GET_PEOPLE,
+                query: GET_PEOPLE_WITH_CARS,
                 data: {
                     people: filter(people, person => {
                         return person.id !== removePerson.id
@@ -19,7 +22,6 @@ const RemovePerson = ({ id }) => {
             })
         }
     })
-
 
     const handleButtonClick = () => {
         let result = window.confirm("Are you sure you want to delete this person?")

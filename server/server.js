@@ -10,7 +10,6 @@ import cors from "cors"
 import bodyParser from "body-parser"
 import { typeDefs, resolvers } from './src/schema.js'
 
-
 // to start the Apollo server, need to pass typeDefs(definition of the GraphQL schema type) and resolvers (query resolver function)
 const startApolloServer = async (typeDefs, resolvers) => {
     // create express application object which is based for the http server.
@@ -54,8 +53,7 @@ const startApolloServer = async (typeDefs, resolvers) => {
     // ready for receive requests from the client. (servers setting up is over above,)
     await new Promise(resolve => httpServer.listen({ port: 4000 }, resolve))
 
-    console.log(`server ready at http://localhost:4000/graphql`)
-
+    // console.log(`server ready at http://localhost:4000/graphql`)
 }
 
 startApolloServer(typeDefs, resolvers)
